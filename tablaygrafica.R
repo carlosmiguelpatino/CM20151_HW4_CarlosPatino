@@ -41,15 +41,16 @@ names(ipiales)[1] <- "año"
 ipiales <- ipiales[,keeps,drop=FALSE]
 
 #Adicion columnas faltantes
-bogota <- mutate(bogota, fecha = paste(año, mes, "1", sep="/"))
+MesNum <- function(x) match(tolower(x), tolower(month.abb))
+bogota <- mutate(bogota, fecha = paste(año, MesNum(mes), "1", sep="/"))
 bogota <- mutate(bogota, ciudad = "Bogota")
-cali <- mutate(cali, fecha = paste(año, mes, "1", sep="/"))
+cali <- mutate(cali, fecha = paste(año, MesNum(mes), "1", sep="/"))
 cali <- mutate(cali, ciudad = "Cali")
-bucaramanga <- mutate(bucaramanga, fecha = paste(año, mes, "1", sep="/"))
+bucaramanga <- mutate(bucaramanga, fecha = paste(año, MesNum(mes), "1", sep="/"))
 bucaramanga <- mutate(bucaramanga, ciudad = "Bucaramanga")
-barranquilla <- mutate(barranquilla, fecha = paste(año, mes, "1", sep="/"))
+barranquilla <- mutate(barranquilla, fecha = paste(año, MesNum(mes), "1", sep="/"))
 barranquilla <- mutate(barranquilla, ciudad = "Barranquilla")
-ipiales <- mutate(ipiales, fecha = paste(año, mes, "1", sep="/"))
+ipiales <- mutate(ipiales, fecha = paste(año, MesNum(mes), "1", sep="/"))
 ipiales <- mutate(ipiales, ciudad = "Ipiales")
 
 temperaturas <- rbind(bogota, cali, bucaramanga, barranquilla, ipiales)

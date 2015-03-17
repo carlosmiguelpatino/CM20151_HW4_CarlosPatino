@@ -1,6 +1,7 @@
 library(tidyr)
 library(dplyr)
 library(lubridate)
+library(ggplot2)
 
 #Descarga de datos por ciudad
 download.file('http://data.giss.nasa.gov/tmp/gistemp/STATIONS/tmp_305802220000_13_0/station.txt', destfile = 'bogota.txt', method = 'wget')
@@ -56,5 +57,10 @@ ipiales <- mutate(ipiales, ciudad = "Ipiales")
 temperaturas <- rbind(bogota, cali, bucaramanga, barranquilla, ipiales)
 
 temperaturas <- temperaturas[c("año", "mes", "fecha", "ciudad", "temperatura")]
+temperaturas[temperaturas == 999.9] <- NA
 
 write.csv(temperaturas, file = "temperaturas.csv")
+
+#Crear grafica
+grafica <- ggplot(temperaturas, aes(x = fecha, y = temperatura)) + geom_line() + geom_point() + ggtitle("Temperatura en Colombia \n 1961-2015") + facet_wrap(~ ciudad, scales = "free")
+ggsave(filename='temperaturas.png', plot = grafica)

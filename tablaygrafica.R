@@ -1,3 +1,7 @@
+#Este script se debe ejecutar en la carpeta CM20151_HW4_CarlosPatino con el comando
+#Rscript tablaygraficas.R
+#Los resultados se almacenan en la carpeta data
+
 library(tidyr)
 library(dplyr)
 library(lubridate)
@@ -19,11 +23,11 @@ library(ggplot2)
 
 
 #Importacion de datos a data frames
-bogota = read.table("bogota.txt", header = TRUE)
-cali = read.table("cali.txt", header = TRUE)
-bucaramanga = read.table("bucaramanga.txt", header = TRUE)
-barranquilla = read.table("barranquilla.txt", header = TRUE)
-ipiales = read.table("ipiales.txt", header = TRUE)
+bogota = read.table("./data/bogota.txt", header = TRUE)
+cali = read.table("./data/cali.txt", header = TRUE)
+bucaramanga = read.table("./data/bucaramanga.txt", header = TRUE)
+barranquilla = read.table("./data/barranquilla.txt", header = TRUE)
+ipiales = read.table("./data/ipiales.txt", header = TRUE)
 
 #Limpieza y organizacion de data frames
 keeps <- c("año","mes", "temperatura")
@@ -66,9 +70,11 @@ temperaturas <- rbind(bogota, cali, bucaramanga, barranquilla, ipiales)
 temperaturas <- temperaturas[c("año", "mes", "fecha", "ciudad", "temperatura")]
 temperaturas[temperaturas == 999.9] <- NA
 
-write.csv(temperaturas, file = "temperaturas.csv", row.names = FALSE)
+write.csv(temperaturas, file = "./data/temperaturas.csv", row.names = FALSE)
+
+
 
 #Crear grafica
 png("temperaturas.png",height=800,width=1600)
 grafica <- ggplot(temperaturas, aes(x = fecha, y = temperatura, group = 1))+ geom_point(size = 1) + ggtitle("Temperatura en Colombia \n 1961-2015") + facet_wrap(~ ciudad, scales = "free") + geom_line() + ylab("Temperatura (°C)") + xlab("Fecha")
-ggsave(filename='temperaturas.png', plot = grafica)
+ggsave(filename='./data/temperaturas.png', plot = grafica)

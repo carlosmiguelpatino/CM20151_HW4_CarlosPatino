@@ -12,4 +12,5 @@ minombre.wav: a.out
 a.out: grabar_mi_nombre.c
 	gcc grabar_mi_nombre.c
 
+ 
 
